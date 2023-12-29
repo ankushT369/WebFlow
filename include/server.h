@@ -3,7 +3,7 @@
 
 #include "webflow.h"
 
-//Base Class
+// Base Class
 class Server {
 	private:
 		int socketfd;
@@ -15,7 +15,7 @@ class Server {
 		//
 };
 
-//Derived Class
+// Derived Class
 class HttpServer {
 	private:
 		//
