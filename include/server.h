@@ -5,26 +5,19 @@
 
 // Base Class
 class Server {
-	private:
-		int socketfd;
-
-	public:
-		//
+ private:
 	
-	protected:
-		//
+ public:
+	//
 };
 
 // Derived Class
-class HttpServer {
-	private:
-		//
+class HTTPRequestHandler : public Server {
+ private:
+  std::string _method;
 	
-	public: 
-		//
-	
-	protected:
-		//
+ public: 
+
 };
 
 #endif //SERVER_H_
