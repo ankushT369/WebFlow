@@ -28,6 +28,3 @@
 #else
 #error This code intended for LINUX environment
 #endif
-
-
-
