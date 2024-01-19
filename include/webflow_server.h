@@ -6,7 +6,11 @@
 #ifndef WEBFLOW_SERVER_H
 #define WEBFLOW_SERVER_H
 
-using namespace webflow {
+#include <cstddef>
+#include <cstdint>
+#include <string>
+
+namespace webflow {
 
 constexpr size_t max_buffer_size = 4096;
 
@@ -20,18 +24,19 @@ struct EventData {
 
 class WebFlowServer {
 public:	
-	explicit WebFlowServer(const std::string& host, std::port);	
+	explicit WebFlowServer(const std::string& host, uint16_t port);	
 	~WebFlowServer() = default;
 
 	void Start();				//This function starts the server upto bind
 	void Stop();				//This function stops the server when its done
+	void DataProcessing(int, EventData*);
 
 private:
 	int sock_fd_;
 	std::string host_;
-	std::uint16_t port_;
+	uint16_t port_;
 	void SetServerSocket();
 };
 
 } // namespace webflow_server.h ends here
-#endif \\ WEBFLOW_SERVER_H
+#endif // WEBFLOW_SERVER_H
