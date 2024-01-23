@@ -11,6 +11,7 @@
 #include <iostream>
 #include <memory>
 #include <utility>
+#include <thread>
 
 namespace webflow {
 
@@ -42,8 +43,8 @@ void WebFlowServer::Start() {
 	}
 
 	server_address_.sin_family = AF_INET;
-    	server_address_.sin_addr.s_addr = INADDR_ANY;
-    	server_address_.sin_port = htons(port_);
+	server_address_.sin_addr.s_addr = INADDR_ANY;
+	server_address_.sin_port = htons(port_);
 
 	if(bind(sock_fd_, (struct sockaddr*)&server_address_,
 				sizeof(server_address_)) < 0) {
@@ -61,20 +62,28 @@ void WebFlowServer::Start() {
 
 	
 	while(1) {
-		std::unique_ptr<EventData> client_data(new EventData());
-		
+
 		if((client_sock = accept(sock_fd_, (struct sockaddr*)&server_address_, &addrlen)) < 0) {
 			perror("Error: ");
 		}
-		client_data->fd = client_sock;
-
-		client_data->len = read(client_sock, client_data->buffer, max_buffer_size - 1);
-		fmt::print("{}", client_data->buffer);
 		
-		close(client_sock);
+		std::thread client_thread(&WebFlowServer::ClientConnection, this, client_sock);	
+		client_thread.detach();
+
 	}
 	
+}
 
+void WebFlowServer::ClientConnection(int _client_sock) {
+
+	std::unique_ptr<EventData> client_data(new EventData());	
+	client_data->fd = _client_sock;
+
+	client_data->len = read(_client_sock, client_data->buffer, max_buffer_size - 1);
+	fmt::print("{}\n", client_data->buffer);
+	
+	send(_client_sock, client_data->buffer, client_data->len, 0);
+	close(_client_sock);
 }
 
 void WebFlowServer::Stop() {

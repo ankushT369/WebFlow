@@ -31,7 +31,7 @@ public:
 
 	void Start();				//This function starts the server upto bind
 	void Stop();				//This function stops the server when its done
-	void DataProcessing(int, EventData*);
+	void ClientConnection(int);	//This function is for handling each client which creates a seperate thread for each client
 
 private:
 	int sock_fd_;
