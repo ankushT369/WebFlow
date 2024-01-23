@@ -6,6 +6,8 @@
 #ifndef WEBFLOW_SERVER_H
 #define WEBFLOW_SERVER_H
 
+#include "webflow.h"
+
 #include <cstddef>
 #include <cstdint>
 #include <string>
@@ -39,4 +41,5 @@ private:
 };
 
 } // namespace webflow_server.h ends here
+
 #endif // WEBFLOW_SERVER_H

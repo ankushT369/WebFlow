@@ -8,5 +8,6 @@ int main() {
 	int port = 8080;
 	WebFlowServer server(host, port);
 	server.Start();
+	server.Stop();
 	return 0;
 }

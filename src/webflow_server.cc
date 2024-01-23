@@ -1,5 +1,4 @@
 #include "webflow_server.h"
-#include "webflow.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -10,6 +9,8 @@
 #include <unistd.h>
 
 #include <iostream>
+#include <memory>
+#include <utility>
 
 namespace webflow {
 
@@ -60,8 +61,7 @@ void WebFlowServer::Start() {
 
 	
 	while(1) {
-		EventData* client_data;
-		client_data = new EventData;
+		std::unique_ptr<EventData> client_data(new EventData());
 		
 		if((client_sock = accept(sock_fd_, (struct sockaddr*)&server_address_, &addrlen)) < 0) {
 			perror("Error: ");
@@ -72,7 +72,6 @@ void WebFlowServer::Start() {
 		fmt::print("{}", client_data->buffer);
 		
 		close(client_sock);
-		delete client_data;
 	}
 	
 
