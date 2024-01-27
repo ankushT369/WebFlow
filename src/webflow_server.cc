@@ -1,4 +1,5 @@
 #include "webflow_server.h"
+#include "webflow_http_handler.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -76,13 +77,18 @@ void WebFlowServer::Start() {
 
 void WebFlowServer::ClientConnection(int _client_sock) {
 
-	std::unique_ptr<EventData> client_data(new EventData());	
+	std::shared_ptr<EventData> client_data(new EventData());	
 	client_data->fd = _client_sock;
 
 	client_data->len = read(_client_sock, client_data->buffer, max_buffer_size - 1);
+
+	client_data->buffer[max_buffer_size] = '\0';
 	fmt::print("{}\n", client_data->buffer);
 	
-	send(_client_sock, client_data->buffer, client_data->len, 0);
+	HttpMessage http_msg(client_data->buffer, client_data->fd);
+
+	//send(_client_sock, client_data->buffer, client_data->len, 0);
+	
 	close(_client_sock);
 }
 
