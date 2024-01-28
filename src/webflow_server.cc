@@ -9,9 +9,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#include <iostream>
 #include <memory>
-#include <utility>
 #include <thread>
 
 namespace webflow {
@@ -57,7 +55,6 @@ void WebFlowServer::Start() {
 		perror("Error:");
 		//throw stuff...
 	}
-
 	int client_sock = 0;
 	socklen_t addrlen = sizeof(server_address_);
 
@@ -87,7 +84,12 @@ void WebFlowServer::ClientConnection(int _client_sock) {
 	
 	HttpMessage http_msg(client_data->buffer, client_data->fd);
 
-	//send(_client_sock, client_data->buffer, client_data->len, 0);
+	 const char* html = "HTTP/1.1 200 OK\r\n"
+                       "Content-Type: text/html\r\n"
+                       "Content-Length: 13\r\n"
+                       "\r\n"
+                       "<h3>hii dojffo</h3>";
+	send(_client_sock, html, strlen(html), 0);
 	
 	close(_client_sock);
 }

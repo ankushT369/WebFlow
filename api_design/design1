@@ -1,0 +1,14 @@
+#include <header>
+//remaining headers..
+
+int
+main() {
+	WebFlowServer server(//);
+	WebFlowRoutes route;
+	//default route .. wrong url webpage
+	route.get("/a", "a.html");
+	
+	server.Start();
+	server.Stop();
+	return 0;
+}
