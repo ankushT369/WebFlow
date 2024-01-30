@@ -6,8 +6,6 @@
 #ifndef WEBFLOW_SERVER_H
 #define WEBFLOW_SERVER_H
 
-#include "webflow.h"
-
 #include <cstddef>
 #include <cstdint>
 #include <string>

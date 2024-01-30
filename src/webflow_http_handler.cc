@@ -1,6 +1,4 @@
-#include "webflow.h"
 #include "webflow_http_handler.h"
-#include <iostream>
 #include <sstream>
 
 namespace webflow {
@@ -19,7 +17,7 @@ void HttpMessage::ParseHttpRequest(const std::string& request) {
 	std::string http_version;
 
 	std::istringstream iss(request);
-	std::getline(iss, line, NL);
+	std::getline(iss, line, LF);
 	std::istringstream requestLineStream(line);	
 	
 	std::getline(requestLineStream, http_method, SP);
@@ -66,7 +64,6 @@ HttpMethod HttpMessage::GetHttpMethod(const std::string& method, HttpRequest& ht
     } else {
         return HttpMethod::HTTP_METHOD_ERROR;
     }
-	//return ;
 
 }
 
@@ -74,7 +71,7 @@ HttpVersion HttpMessage::GetHttpVersion(const std::string& version, HttpRequest&
 	if(version == "HTTP/1.1") {
 		return HttpVersion::HTTP_1_1;
 	} else {
-		return HttpVersion::HTTP_VERSION_NOT_FOUND;
+		return HttpVersion::HTTP_VERSION_ERROR;
 	}
 }
 

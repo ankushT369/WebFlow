@@ -4,9 +4,10 @@
 #define WEBFLOW_HTTP_HANDLER_H
 #include <map>
 #include <string>
-#include <functional>
 
 namespace webflow {
+
+
 
 //Http method map
 #define HTTP_METHOD_MAP(XX)								\
@@ -22,10 +23,12 @@ enum class HttpMethod {
 #undef XX
 };
 
+
+
 //http verison map
 #define HTTP_VERSION(XX)								\
 	XX(11, _1_1, HTTP/1.1)								\
-	XX(-1, _VERSION_NOT_FOUND, NOT_FOUND)								
+	XX(-1, _VERSION_ERROR, VERSION_ERROR)								
 
 enum class HttpVersion {
 #define XX(num, version, string) HTTP##version = num,
@@ -33,8 +36,24 @@ enum class HttpVersion {
 #undef XX
 };
 
+
+
+//http status code
+#define HTTP_STATUS_CODE(XX)							\
+	XX(200, OK, Ok)										\
+	XX(404, NOT_FOUND, File_not_found)					\
+	XX(403, FORBIDDEN, Forbidden)						
+
+enum class HttpStatusCode {
+#define XX(num, reason_phrase, string) HTTP##reason_phrase = num,
+	HTTP_STATUS_CODE(XX)
+#undef XX
+};
+
+
+
 #define CR '\r'
-#define NL '\n'
+#define LF '\n'
 #define SP ' '
 /*
  *
@@ -48,18 +67,27 @@ struct HttpRequest {
 	std::string message_content;
 };
 
+struct HttpResponse : HttpRequest {
+	HttpStatusCode status_;
+	std::string response_content;
+};
+
 class HttpMessage {
 public:
 	HttpMessage() = default;
+	
 	explicit HttpMessage(std::string http_message, int sock);
+	
 	virtual ~HttpMessage() = default;
-	HttpMethod GetHttpMethod(const std::string&, HttpRequest&);
-
+	
 protected:
 	std::string http_message_;
 	int sock_;
+	
 	void ParseHttpRequest(const std::string&);
+	
 	std::string GetHttpUri(const std::string&);
+	HttpMethod GetHttpMethod(const std::string&, HttpRequest&);
 	HttpVersion GetHttpVersion(const std::string&, HttpRequest&);
 };
 

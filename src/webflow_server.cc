@@ -8,6 +8,7 @@
 #include <netdb.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <fmt/core.h>
 
 #include <memory>
 #include <thread>
@@ -74,7 +75,7 @@ void WebFlowServer::Start() {
 
 void WebFlowServer::ClientConnection(int _client_sock) {
 
-	std::shared_ptr<EventData> client_data(new EventData());	
+	std::unique_ptr<EventData> client_data(new EventData());	
 	client_data->fd = _client_sock;
 
 	client_data->len = read(_client_sock, client_data->buffer, max_buffer_size - 1);
@@ -85,10 +86,10 @@ void WebFlowServer::ClientConnection(int _client_sock) {
 	HttpMessage http_msg(client_data->buffer, client_data->fd);
 
 	 const char* html = "HTTP/1.1 200 OK\r\n"
-                       "Content-Type: text/html\r\n"
-                       "Content-Length: 13\r\n"
-                       "\r\n"
-                       "<h3>hii dojffo</h3>";
+					    "Content-Type: text/html\r\n"
+                        "Content-Length: 21\r\n"
+                        "\r\n"
+                        "<h1>Puchku pagol</h1>";
 	send(_client_sock, html, strlen(html), 0);
 	
 	close(_client_sock);
