@@ -1,6 +1,6 @@
 # WebFlow
 
-A Simple Webserver in C++
+A Simple Multi-threaded Webserver in C++
 
-To run the server
+## Build Commands
 `make run`
