@@ -10,6 +10,8 @@
 #include <cstdint>
 #include <string>
 
+#include "webflow.h"
+
 namespace webflow {
 
 constexpr size_t max_buffer_size = 4096;

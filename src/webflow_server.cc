@@ -89,7 +89,7 @@ void WebFlowServer::ClientConnection(int _client_sock) {
 					    "Content-Type: text/html\r\n"
                         "Content-Length: 21\r\n"
                         "\r\n"
-                        "<h1>Puchku pagol</h1>";
+                        "<h1>Test h1 tag</h1>";
 	send(_client_sock, html, strlen(html), 0);
 	
 	close(_client_sock);
